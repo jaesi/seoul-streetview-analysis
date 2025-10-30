@@ -71,7 +71,12 @@ def example_segmentation():
     segmenter = StreetViewSegmenter()
 
     # Find a sample image
-    sample_folders = ["hongdae", "syarosu", "ssook", "test_images"]
+    sample_folders = [
+        "data/raw/hongdae",
+        "data/raw/syarosu",
+        "data/raw/ssook",
+        "test_images",
+    ]
     sample_image = None
 
     for folder in sample_folders:

@@ -259,6 +259,8 @@ seoul-streetview-analysis/
 └── 📄 README.md                     # 📖 이 파일!
 ```
 
+> ℹ️ 기본 샘플 이미지 폴더(`hongdae`, `syarosu`, `ssook`)는 `data/raw/` 아래로 옮겨졌으며, 모든 예제와 스크립트는 이 경로를 기준으로 동작합니다.
+
 ---
 
 ## 🎨 파이프라인 상세 설명
