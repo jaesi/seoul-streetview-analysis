@@ -35,6 +35,11 @@ def test_config_settings():
     assert "hongdae" in LOCATIONS, "Should have hongdae location"
     assert "syarosu" in LOCATIONS, "Should have syarosu location"
 
+    required_keys = {"start_coords", "end_coords", "num_points"}
+    for name, location in LOCATIONS.items():
+        missing = required_keys - location.keys()
+        assert not missing, f"Location '{name}' missing keys: {missing}"
+
     # Test image settings
     assert IMAGE_SETTINGS["size"] == "256x256", "Image size should be 256x256"
     assert len(IMAGE_SETTINGS["headings"]) == 4, "Should have 4 headings"

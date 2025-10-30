@@ -4,9 +4,18 @@ Image Getter Module
 This module provides functionality to fetch street view images using Google Maps API.
 """
 
-import requests
 import os
+import sys
+from pathlib import Path
 from typing import List, Tuple
+
+import requests
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from config.settings import LOCATIONS, RAW_DATA_DIR
 
 
 class StreetViewImageGetter:
@@ -133,38 +142,30 @@ def main():
     # Initialize image getter
     getter = StreetViewImageGetter(api_key=api_key)
 
-    # Define locations
-    locations = {
-        "hongdae": {
-            "start": (37.554197, 126.922500),
-            "end": (37.550833, 126.921323),
-            "points": 40,
-            "output": "data/raw/hongdae"
-        },
-        "syarosu": {
-            "start": (37.479241, 126.952545),
-            "end": (37.479476, 126.944457),
-            "points": 20,
-            "output": "data/raw/syarosu"
-        },
-        "ssook": {
-            "start": (37.478701, 126.952144),
-            "end": (37.479476, 126.944457),
-            "points": 20,
-            "output": "data/raw/ssook"
-        }
-    }
-
-    # Fetch images for each location
-    for location_name, config in locations.items():
+    # Fetch images for each configured location
+    for location_name, config in LOCATIONS.items():
         print(f"\nFetching images for {location_name}...")
+
+        try:
+            start_coords: Tuple[float, float] = config["start_coords"]
+            end_coords: Tuple[float, float] = config["end_coords"]
+            num_points: int = config["num_points"]
+        except KeyError as exc:
+            missing_key = exc.args[0]
+            print(
+                f"Skipping {location_name}: configuration missing '{missing_key}'"
+            )
+            continue
+
+        output_folder = RAW_DATA_DIR / location_name
+
         getter.fetch_images_along_path(
-            start_lat=config["start"][0],
-            start_lon=config["start"][1],
-            end_lat=config["end"][0],
-            end_lon=config["end"][1],
-            num_points=config["points"],
-            output_folder=config["output"],
+            start_lat=start_coords[0],
+            start_lon=start_coords[1],
+            end_lat=end_coords[0],
+            end_lon=end_coords[1],
+            num_points=num_points,
+            output_folder=str(output_folder),
             prefix=f"{location_name}_image"
         )
 
