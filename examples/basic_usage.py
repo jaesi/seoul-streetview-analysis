@@ -20,7 +20,7 @@ def example_modeling():
     print("EXAMPLE 1: Machine Learning Modeling")
     print("=" * 80)
 
-    from src.modeling import UVIPredictor
+    from src.seoul_streetview.modeling import UVIPredictor
 
     # Create predictor
     predictor = UVIPredictor()
@@ -64,7 +64,7 @@ def example_segmentation():
     print("EXAMPLE 2: Image Segmentation")
     print("=" * 80)
 
-    from src.segmenter import StreetViewSegmenter
+    from src.seoul_streetview.segmentation import StreetViewSegmenter
     import os
 
     # Create segmenter
@@ -130,7 +130,7 @@ def example_custom_location():
     print("\nThen use it in your code:")
     print("""
     from config.settings import LOCATIONS
-    from src.image_getter import StreetViewImageGetter
+    from src.seoul_streetview.data import StreetViewImageGetter
 
     location = LOCATIONS["gangnam"]
     getter = StreetViewImageGetter(api_key="YOUR_API_KEY")

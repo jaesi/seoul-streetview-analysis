@@ -15,11 +15,11 @@ sys.path.insert(0, str(PROJECT_ROOT))
 def test_imports():
     """Test that all main modules can be imported."""
     try:
-        import src.image_getter
-        import src.segmenter
-        import src.modeling
-        import src.generate_sample_data
-        from src.utils import setup_logging
+        import src.seoul_streetview.data.image_getter
+        import src.seoul_streetview.data.sample_generator
+        import src.seoul_streetview.modeling.modeling
+        import src.seoul_streetview.segmentation.segmenter
+        from src.seoul_streetview.utils import setup_logging
         from config import settings
         assert True
     except ImportError as e:
@@ -73,7 +73,7 @@ def test_directory_structure():
 
 def test_utils():
     """Test utility functions."""
-    from src.utils import ensure_dir, get_project_root, format_percentage
+    from src.seoul_streetview.utils import ensure_dir, get_project_root, format_percentage
 
     # Test ensure_dir
     test_dir = ensure_dir(Path("data/test"))

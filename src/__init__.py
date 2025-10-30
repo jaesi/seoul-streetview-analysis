@@ -1,7 +1,6 @@
-"""
-Seoul Street View Analysis Package
+"""Seoul Street View Analysis project namespace."""
 
-This package provides tools for analyzing urban vitality using street view images.
-"""
+from .seoul_streetview import data, modeling, segmentation, utils
 
+__all__ = ["data", "modeling", "segmentation", "utils"]
 __version__ = "1.0.0"

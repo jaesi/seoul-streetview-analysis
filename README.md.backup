@@ -19,10 +19,21 @@ This project analyzes urban vitality in three Seoul locations—**Hongdae**, **S
 seoul-streetview-analysis/
 ├── src/                          # Source code modules
 │   ├── __init__.py              # Package initialization
-│   ├── image_getter.py          # Google Maps API image fetching
-│   ├── segmenter.py             # Image segmentation with ResNet50
-│   ├── modeling.py              # ML modeling and prediction
-│   └── generate_sample_data.py  # Sample data generation
+│   └── seoul_streetview/
+│       ├── __init__.py
+│       ├── data/
+│       │   ├── __init__.py      # Google Maps API integration & sample data
+│       │   ├── image_getter.py  # Google Maps API image fetching
+│       │   └── sample_generator.py
+│       ├── segmentation/
+│       │   ├── __init__.py
+│       │   └── segmenter.py     # Image segmentation with ResNet50
+│       ├── modeling/
+│       │   ├── __init__.py
+│       │   └── modeling.py      # ML modeling and prediction
+│       └── utils/
+│           ├── __init__.py      # Shared helpers and logging utilities
+│           └── exceptions.py
 ├── notebooks/                    # Jupyter notebooks (archived)
 │   ├── image_getter.ipynb
 │   ├── segmenter.ipynb
@@ -75,10 +86,10 @@ The project includes pre-collected images and processed data. You can directly r
 
 ```bash
 # Run segmentation on existing images
-python src/segmenter.py
+python -m src.seoul_streetview.segmentation.segmenter
 
 # Train and evaluate ML models
-python src/modeling.py
+python -m src.seoul_streetview.modeling.modeling
 ```
 
 ### Option 2: Fetching New Images
@@ -86,7 +97,7 @@ python src/modeling.py
 If you have a Google Maps API key:
 
 ```bash
-python src/image_getter.py
+python -m src.seoul_streetview.data.image_getter
 ```
 
 This will fetch street view images for the three locations specified in the script.
@@ -96,14 +107,14 @@ This will fetch street view images for the three locations specified in the scri
 For testing without API keys or actual data:
 
 ```bash
-python src/generate_sample_data.py
+python -m src.seoul_streetview.data.sample_generator
 ```
 
 This generates synthetic street view images and corresponding data.
 
 ## Pipeline Overview
 
-### 1. Image Collection (`image_getter.py`)
+### 1. Image Collection (`data/image_getter.py`)
 
 Fetches street view images from Google Maps API along specified paths.
 
@@ -114,7 +125,7 @@ Fetches street view images from Google Maps API along specified paths.
 
 **Example:**
 ```python
-from src.image_getter import StreetViewImageGetter
+from src.seoul_streetview.data import StreetViewImageGetter
 
 getter = StreetViewImageGetter(api_key="YOUR_API_KEY")
 getter.fetch_images_along_path(
@@ -128,7 +139,7 @@ getter.fetch_images_along_path(
 )
 ```
 
-### 2. Image Segmentation (`segmenter.py`)
+### 2. Image Segmentation (`segmentation/segmenter.py`)
 
 Performs semantic segmentation using FCN-ResNet50 pre-trained on COCO dataset.
 
@@ -144,7 +155,7 @@ Performs semantic segmentation using FCN-ResNet50 pre-trained on COCO dataset.
 
 **Example:**
 ```python
-from src.segmenter import StreetViewSegmenter
+from src.seoul_streetview.segmentation import StreetViewSegmenter
 
 segmenter = StreetViewSegmenter()
 
@@ -158,7 +169,7 @@ df = segmenter.process_folder(
 )
 ```
 
-### 3. ML Modeling (`modeling.py`)
+### 3. ML Modeling (`modeling/modeling.py`)
 
 Trains and evaluates regression models to predict Urban Vitality Index.
 
@@ -171,7 +182,7 @@ Trains and evaluates regression models to predict Urban Vitality Index.
 
 **Example:**
 ```python
-from src.modeling import UVIPredictor
+from src.seoul_streetview.modeling import UVIPredictor
 
 predictor = UVIPredictor()
 
