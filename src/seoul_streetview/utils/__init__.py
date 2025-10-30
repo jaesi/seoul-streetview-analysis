@@ -9,7 +9,7 @@ from typing import Optional
 import sys
 
 # Add project root to path
-PROJECT_ROOT = Path(__file__).parent.parent.parent
+PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 

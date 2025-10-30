@@ -192,7 +192,7 @@ python main.py --full
 ### 💻 Python 코드로 직접 사용하기
 
 ```python
-from src.modeling import UVIPredictor
+from src.seoul_streetview.modeling import UVIPredictor
 
 # 예측 모델 생성
 predictor = UVIPredictor()
@@ -224,13 +224,21 @@ seoul-streetview-analysis/
 │
 ├── 📁 src/                          # 소스 코드
 │   ├── __init__.py
-│   ├── image_getter.py              # 📸 이미지 수집
-│   ├── segmenter.py                 # 🤖 AI 이미지 분석
-│   ├── modeling.py                  # 📊 ML 모델링
-│   ├── generate_sample_data.py      # 🎲 샘플 데이터 생성
-│   └── utils/                       # 🛠️ 유틸리티
+│   └── seoul_streetview/
 │       ├── __init__.py
-│       └── exceptions.py
+│       ├── data/
+│       │   ├── __init__.py          # 📸 데이터 수집 & 샘플 생성
+│       │   ├── image_getter.py      # Google Street View 이미지 수집
+│       │   └── sample_generator.py  # 샘플 데이터 생성 도구
+│       ├── modeling/
+│       │   ├── __init__.py
+│       │   └── modeling.py          # 📊 ML 모델링
+│       ├── segmentation/
+│       │   ├── __init__.py
+│       │   └── segmenter.py         # 🤖 AI 이미지 분석
+│       └── utils/
+│           ├── __init__.py          # 🛠️ 공용 유틸리티
+│           └── exceptions.py
 │
 ├── 📁 config/                       # ⚙️ 설정 파일
 │   └── settings.py                  # 프로젝트 설정
@@ -265,7 +273,7 @@ seoul-streetview-analysis/
 
 ## 🎨 파이프라인 상세 설명
 
-### 1️⃣ 이미지 수집 (image_getter.py)
+### 1️⃣ 이미지 수집 (`data/image_getter.py`)
 
 Google Maps API를 사용하여 거리뷰 이미지를 자동으로 수집합니다.
 
@@ -276,7 +284,7 @@ Google Maps API를 사용하여 거리뷰 이미지를 자동으로 수집합니
 
 **예제 코드:**
 ```python
-from src.image_getter import StreetViewImageGetter
+from src.seoul_streetview.data import StreetViewImageGetter
 
 getter = StreetViewImageGetter(api_key="YOUR_API_KEY")
 getter.fetch_images_along_path(
@@ -289,7 +297,7 @@ getter.fetch_images_along_path(
 )
 ```
 
-### 2️⃣ 이미지 분석 (segmenter.py)
+### 2️⃣ 이미지 분석 (`segmentation/segmenter.py`)
 
 AI가 이미지에서 도시 구성 요소를 자동으로 인식합니다.
 
@@ -303,7 +311,7 @@ AI가 이미지에서 도시 구성 요소를 자동으로 인식합니다.
 
 **예제 코드:**
 ```python
-from src.segmenter import StreetViewSegmenter
+from src.seoul_streetview.segmentation import StreetViewSegmenter
 
 segmenter = StreetViewSegmenter()
 

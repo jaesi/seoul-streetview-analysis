@@ -19,13 +19,13 @@ def run_full_pipeline():
     print("\n[Step 1/3] Checking data...")
     if not Path("class_percentages.csv").exists() or not Path("Urban_vitality_index.xlsx").exists():
         print("Data files not found. Please run one of the following:")
-        print("  - python src/image_getter.py (if you have Google API key)")
-        print("  - python src/generate_sample_data.py (to generate sample data)")
+        print("  - python -m src.seoul_streetview.data.image_getter (Google API key required)")
+        print("  - python -m src.seoul_streetview.data.sample_generator (generate sample data)")
         return
 
     # Step 2: Run modeling
     print("\n[Step 2/3] Training and evaluating ML models...")
-    from src.modeling import main as run_modeling
+    from src.seoul_streetview.modeling import main as run_modeling
     run_modeling()
 
     # Step 3: Complete
@@ -43,28 +43,28 @@ def run_full_pipeline():
 
 def run_image_collection():
     """Run image collection using Google Maps API."""
-    from src.image_getter import main as run_getter
+    from src.seoul_streetview.data.image_getter import main as run_getter
     print("Starting image collection...")
     run_getter()
 
 
 def run_segmentation():
     """Run image segmentation."""
-    from src.segmenter import main as run_segmenter
+    from src.seoul_streetview.segmentation import main as run_segmenter
     print("Starting image segmentation...")
     run_segmenter()
 
 
 def run_modeling():
     """Run ML modeling."""
-    from src.modeling import main as run_model
+    from src.seoul_streetview.modeling import main as run_model
     print("Starting ML modeling...")
     run_model()
 
 
 def generate_sample_data():
     """Generate sample data for testing."""
-    from src.generate_sample_data import main as gen_data
+    from src.seoul_streetview.data.sample_generator import main as gen_data
     print("Generating sample data...")
     gen_data()
 
